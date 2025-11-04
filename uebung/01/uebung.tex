@@ -3,6 +3,7 @@
 \usepackage{pgfplots}
 \usepackage{amsmath, amsfonts}
 \usepackage{enumerate}
+\usepackage{pdfpages}
 \input{title.tex}
 
 \newcommand{\N}{\mathbb{N}}
@@ -123,5 +124,107 @@
                 \item $(8, 0)$
                 \item $(8, 0)$
             \end{enumerate}
+    \end{enumerate}
+    \section{}
+    \begin{enumerate}[a)]
+        \item
+            \begin{enumerate}[i.]
+                \item
+                    Wenn $p_2$, sowie $q_2$ gleichzeitig ausgeführt werden.
+                \item
+                    \begin{itemize}
+                        \item
+                            Beide Prozesse dürfen nicht gleichzeitig auf $R$ zugreifen.\\
+                            Ist keine zwar eine Sicherheitseigenschaft, aber keine gute,
+                            da sie ambiguos ist. Besser wäre ``Beide prozesse greifen
+                            nicht gleichzeitig auf $R$ zu.''\\
+                            Es handelt sich um eine Sicherheitseigenschaft, da eine Invariante
+                            beschrieben wird.
+                        \item
+                            In jedem Zustand gibt es eine Fortsetzung, in der ein Prozess
+                            schließlich auf $R$ zugreifen kann.\\
+                            Es handelt sich um eine Lebendigkeitseigenschaft, da
+                            gewährleistet wird, dass die Eigenschaft ``Zugriff auf $R$''
+                            in endlich vielen Schritten (schließlich) gewähleistet wird.
+                    \end{itemize}
+            \end{enumerate}
+        \item
+            \begin{tikzpicture}
+                \node[draw, align=left] (011) at (0,0) {$n=0$\\$p_1,q_1$};
+                \node[draw, align=left] (013) at (2,0) {$n=0$\\$p_1,q_3$};
+                \node[draw, align=left] (021) at (0,-4) {$n=0$\\$p_2,q_1$};
+                \node[draw, align=left] (023) at (2,-4) {$n=0$\\$p_2,q_3$};
+                \node[draw, align=left] (031) at (0,-6) {$n=0$\\$p_3,q_1$};
+                \node[draw, align=left] (033) at (2,-6) {$n=0$\\$p_3,q_3$};
+
+
+                \node[draw, align=left] (111) at (4,0) {$n=1$\\$p_1,q_1$};
+                \node[draw, align=left] (112) at (6,0) {$n=1$\\$p_1,q_2$};
+                \node[draw, align=left] (113) at (8,0) {$n=1$\\$p_1,q_3$};
+                \node[draw, align=left] (121) at (4,-4) {$n=1$\\$p_2,q_1$};
+                \node[draw, align=left, color=red] (122) at (6,-4) {$n=1$\\$p_2,q_2$};
+                \node[draw, align=left] (123) at (8,-4) {$n=1$\\$p_2,q_3$};
+                \node[draw, align=left] (131) at (4,-2) {$n=1$\\$p_3,q_1$};
+                \node[draw, align=left] (132) at (6,-2) {$n=1$\\$p_3,q_2$};
+                \node[draw, align=left] (133) at (8,-2) {$n=1$\\$p_3,q_3$};
+
+                \draw[->]
+                    (011) edge[above] node{$q_1$} (013)
+                    (013) edge[above] node{$q_3$} (111)
+                    (021) edge[above] node{$q_1$} (023)
+                    (023) edge[above] node{$q_3$} (121)
+                    (031) edge[above] node{$q_1$} (033)
+                    (111) edge[above] node{$q_1$} (112)
+                    (112) edge[above] node{$q_2$} (113)
+                    (121) edge[above] node{$q_1$} (122)
+                    (122) edge[above] node{$q_2$} (123)
+                    (131) edge[above] node{$q_1$} (132)
+                    (132) edge[above] node{$q_2$} (133)
+
+                    (011) edge[left] node{$p_1$} (021)
+                    (013) edge[left] node{$p_1$} (023)
+                    (021) edge[left] node{$p_1$} (031)
+                    (023) edge[left] node{$p_1$} (033)
+                    (111) edge[left] node{$p_1$} (131)
+                    (112) edge[left] node{$p_1$} (132)
+                    (113) edge[left] node{$p_1$} (133)
+                    (121) edge[left] node{$p_1$} (131)
+                    (122) edge[left] node{$p_1$} (132)
+                    (123) edge[left] node{$p_1$} (133)
+                    ;
+            \end{tikzpicture}\\
+            Da es sich bei den Paaren $((n=0,p_i,q_j),(n=2,p_i,q_j))_{i,j\in\{1,2,3\}}$ jeweils
+            um äquivalente Zustände handelt ($2\equiv 0\mod 2$) gibt es von jedem zustand
+            einen Pfad zu einem Zustandspaar mit $q_2$ und $p_2$.
+            Demnach ist Eigenschaft 2 gewährleistet.
+            Eigenschaft 1 gilt nicht bei Zustand $(n=0,p_2,q_2)$
+        \item
+            \begin{tikzpicture}
+                \node[draw, align=left] (011) at (0,0) {$n=0$\\$p_1,q_1$};
+                \node[draw, align=left] (021) at (0,-2) {$n=0$\\$p_2,q_1$};
+                \node[draw, align=left] (031) at (0,-4) {$n=0$\\$p_3,q_1$};
+                \node[draw, align=left] (111) at (0,-6) {$n=1$\\$p_1,q_1$};
+                \node[draw, align=left] (112) at (2,-6) {$n=1$\\$p_1,q_2$};
+                \node[draw, align=left] (113) at (2,-4) {$n=1$\\$p_1,q_3$};
+                \draw[->]
+                    (011) edge[loop left] node{$q_1$} (011)
+                    (021) edge[loop left] node{$q_1$} (021)
+                    (031) edge[loop left] node{$q_1$} (031)
+                    (111) edge[loop left] node{$p_1$} (111)
+                    (112) edge[loop right] node{$p_1$} (112)
+                    (113) edge[loop right] node{$p_1$} (113)
+
+                    (011) edge[left] node{$p_1$} (021)
+                    (021) edge[left] node{$p_2$} (031)
+                    (031) edge[left] node{$p_3$} (111)
+
+                    (112) edge[left] node{$q_2$} (113)
+
+                    (111) edge[above] node{$q_1$} (112)
+                    ;
+            \end{tikzpicture}\\
+            Mit selber Begründung wie b) gilt auch hier wieder Eigenschaft 2.
+            Anders als in b) gilt hier Eigenschaft 1, da es keinen Zustand mit
+            $p_2$ und $q_2$ gibt.
     \end{enumerate}
 \end{document}
