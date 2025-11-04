@@ -227,4 +227,43 @@
             Anders als in b) gilt hier Eigenschaft 1, da es keinen Zustand mit
             $p_2$ und $q_2$ gibt.
     \end{enumerate}
+    \section{}
+    \begin{enumerate}[a)]
+        \item
+            \begin{tikzpicture}
+                \node[draw, align=left] (a) at (0,0) {$f=1$\\$p_1:5$\\$p_2:3$};
+                \node[draw, align=left] (b) at (2,0) {$f=1$\\$p_1:6$\\$p_2:3$};
+                \node[draw, align=left] (c) at (4,0) {$f=0$\\$p_1:2$\\$p_2:3$};
+                \node[draw, align=left] (d) at (4,-2){$f=0$\\$p_1:3$\\$p_2:3$};
+                \draw[->]
+                    (a) edge[above] node{$p_1$} (b)
+                    (b) edge[above] node{$p_1$} (c)
+                    (c) edge[right] node{$p_1$} (d)
+                    (d) edge[loop left] node{$p_1,p_2$} (d)
+                    ;
+            \end{tikzpicture}\\
+            Nach diesem Ablauf der Zustände sind sowohl $p_1$, wie auch
+            $p_3$ in der \verb|while testAndSet(flag)|-Schleife gefangen,
+            da diese für \verb|flag| (=1) 1 zurückgibt.
+        \item
+            \begin{tabular}{l|l|l}
+                \verb|flag|&$p_1$&$p_2$\\
+                \hline
+                0&\verb|doSomething|\\
+                0&\verb|testAndSet(flag)|\\
+                1&\verb|doSomethingElse|\\
+                1&&\verb|doSomething|\\
+                1&&enter \verb|testAndSet(flag)|\\
+                1&&\verb|oldValue|$\leftarrow$\verb|1|\\
+                0&\verb|flag|$\leftarrow$\verb|0|\\
+                0&&\verb|if flag = 0| (true)\\
+                1&&\verb|flag|$\leftarrow$\verb|1|\\
+                1&&\verb|return 1|\\
+                1&&\verb|while 1 = 1 do|\\
+                1&\verb|doSomething|\\
+                1&\verb|while testAndSet(flag) = 1|&\verb|while testAndSet(flag) = 1|
+            \end{tabular}\\
+            Da \verb|testAndSet(1)| = 1 sind beide Prozesse, in der inneren Schleife gefangen,
+            $p_2$ führt \verb|doSomethingElse| nie aus.
+    \end{enumerate}
 \end{document}
