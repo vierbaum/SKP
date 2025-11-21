@@ -14,6 +14,40 @@
 \begin{document}
     \maketitle
     \section{}
+    \begin{enumerate}[a)]
+        \item Es wurden 100 Sitze reserviert.
+        \item Es wurden insgesamt $65 + 62 = 127$ Sitze reserviert.
+        \item Problem: Es wurden einige Sitze doppelt reserviert. Es findet eine Art Race Condition statt:
+            Beide Threads rufen unabhängig voneinander die Funktionen \verb|reserve()|, \verb|reserveSeat()| und
+            \verb|payment()| auf. Es kann bspw. vorkommen, dass Thread 1 im gemeinsamen Array \verb|seats|
+            (in der Funktion \verb|reserveSeat()|) gerade den Sitz 44 als frei erkannt hat (\verb|freeSeat = false|) (was durch die
+            for-Schleife außerdem bedeutet, dass die Sitze 0 bis 43 bereits reserviert sind).
+            Und während der dabei ist, den Sitz zu reservieren und \verb|payment()| aufzurufen, greift Thread 2 ebenfalls
+            auf den Sitz 44 zu, da der immernoch als false (also nicht reserviert) im Array steht. Thread 2
+            arbeitet dann quasi auf einem veralteten Wert und reserviert den Sitz 44 ebenfalls.
+            \\ Im Wesentlichen sind die Codezeilen das Problem, in denen auf \verb|seats| zugegriffen wird; also:
+            Zeilen 33 bis 38.
+        \item \begin{enumerate}[i.]
+            \item Da man beliebig viele Threads erstellen kann, ist diese Eigenschaft nicht erfüllt.
+                Im worst case wird jeder Sitz durch jeden Thread einmal reserviert, d.h. bei 3 Threads wären
+                das z.B. 300 Sitze. (Falls allerdings nur gemeint ist, ob die Eigenschaft mit 2 Threads erfüllt ist,
+                dann wäre die Antwort Ja.)
+            \item Das ist nicht erfüllt; siehe c) für ein Gegenbeispiel.
+            \item Das ist erfüllt, denn die while-Schleife in der run() Methode läuft für jeden Thread solange
+                \verb|reserve()| erfolgreich war; was aber immer passiert, wenn mindestens ein Sitz noch als frei (false)
+                in \verb|seats| steht. (Genauer: Der Rückgabewert von \verb|reserve()| entspricht der Variablen
+                \verb|seatReserved|, die wiederum der Rückgabe von \verb|reserveSeat(i)| entspricht. \verb|reserveSeat(i)| gibt
+                genau dann true zurück, wenn \verb|seats[i] = false| ist (also Sitz i frei ist). Die for-Schleife in Zeile 17
+                läuft solange, bis ein Sitz reserviert wurde und gibt dann true aus; oder gibt false aus, wenn kein Sitz mehr frei ist.)
+            \item Das ist ebenfalls erfüllt. Wie oben erläutert, gibt \verb|reserve()| immer true zurück, wenn ein Sitz
+                in \verb|seats| frei war und reserviert werden konnte. In der for-Schleife wird das ja für jeden Sitz geprüft;
+                nur wenn \verb|seats[i] = true| $\forall$\verb|i|$\in [0, 99]$ gilt, dann wird auch kein Sitz reserviert.
+        \end{enumerate}
+        \item Das ist erfüllt. Für jeden Zustand des Programms gilt, dass entweder noch mind. ein Eintrag in \verb|seats| existiert,
+            der false ist (1), oder alle Einträge in \verb|seats| true sind (2). In Fall (1) wird dieser Eintrag innerhalb der
+            for-Schleife in Zeile 17 gefunden werden und dann gibt \verb|reserveSeat()| aus, dass ein Sitz reserviert wurde.
+            Tritt Fall (2) ein, dann wird nach der for-Schleife ausgegeben, dass kein Sitz reserviert werden konnte.
+    \end{enumerate}
     \section{}
     \begin{enumerate}[a)]
         \item
