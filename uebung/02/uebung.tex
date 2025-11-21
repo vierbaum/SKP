@@ -1,0 +1,107 @@
+\documentclass{article}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{amsmath, amsfonts}
+\usepackage{enumerate}
+\usepackage{pdfpages}
+\input{title.tex}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\V}{\mathbb{V}}
+\renewcommand{\P}{\mathbb{P}}
+\begin{document}
+    \maketitle
+    \section{}
+    \section{}
+    \begin{enumerate}[a)]
+        \item
+            \begin{enumerate}[i.]
+                \item
+                    \begin{tabular}{|l|c|}
+                        \hline
+                        Schritt:&\\
+                        \hline
+                        \hline
+                        Prozessor führt i-ten Befehl des Benutzerprogramms aus. Währenddes-&a\\
+                        sen wird ein Interrupt an den UBR-Controller gemeldet. Der UBR-&\\
+                        Controller legt das entsprechende Unterbrechungssignal an den Prozes-&\\
+                        sor an.&\\
+                        \hline
+                        Prozessor führt den i-ten Befehl zu Ende aus.&d\\
+                        \hline
+                        Prozessor überprüft, ob ein Unterbrechungssignal vom UBR-Controller&f\\
+                        vorliegt.&\\
+                        \hline
+                        Prozessor unterbricht Ausführung des Benutzerprogramms und beginnt&e\\
+                        Unterbrechungsbehandlung. Der Prozessor signalisiert dies dem UBR-&\\
+                        Controller. Der Zustand des Benutzerprogramms wird gesichert.&\\
+                        \hline
+                        Prozessor lädt neuen Befehl entsprechend der Unterbrechungsvektorta-&g\\
+                        belle.&\\
+                        \hline
+                        Prozessor führt Unterbrechungsroutine aus. Die Unterbrechungsroutine&b\\
+                        wird ausgeführt. Dann wird die Unterbrechungsroutine verlassen.&\\
+                        \hline
+                        Der Zustand des Benutzerprogramms wird wiederhergestellt.&c\\
+                        \hline
+                        Prozessor lädt den (i+1)-ten Befehl des Benutzerprogramms und führt&h\\
+                        diesen aus.&\\
+                        \hline
+                    \end{tabular}
+                \item
+                    \begin{tabular}{|l|c|}
+                        \hline
+                        Schritt:&\\
+                        \hline
+                        \hline
+                        Prozessor führt i-ten Befehl des Benutzerprogramms aus. Währenddes-&a\\
+                        sen wird ein Interrupt an den UBR-Controller gemeldet. Der UBR-&\\
+                        Controller legt das entsprechende Unterbrechungssignal an den Prozes-&\\
+                        sor an.&\\
+                        \hline
+                        Prozessor führt den i-ten Befehl zu Ende aus.&d\\
+                        \hline
+                        Prozessor überprüft, ob ein Unterbrechungssignal vom UBR-Controller&f\\
+                        vorliegt.&\\
+                        \hline
+                        Prozessor lädt den (i+1)-ten Befehl des Benutzerprogramms und führt&h\\
+                        diesen aus.&\\
+                        \hline
+                    \end{tabular}
+            \end{enumerate}
+        \item
+            \begin{tabular}{|c|c|c|}
+                \hline
+                &In PCB enthalten&Nicht in PCB enthalten\\
+                \hline
+                \hline
+                Prozessidentität (pid)&$\times$&\\
+                \hline
+                Maschinencode des Programms&&$\times$\\
+                \hline
+                Programmcounter, bzw. Befehlszeiger&$\times$&\\
+                \hline
+                Kopie der Systemlibrary&&$\times$\\
+                \hline
+                Globale Variablen des Prozesses&&$\times$\\
+                \hline
+                Zeiger auf Prozessspeicherbereiche&$\times$&\\
+                \hline
+            \end{tabular}
+        \item
+            Wir haben N(eu), Be(reit), A(ktiv), Bl(ockiert), T(erminiert)\\
+            \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+                \hline
+                \textbf{Prozess}&$t_0$&$t_1$&$t_2$&$t_3$&$t_4$&$t_5$&$t_6$&$t_7$&$t_8$&$t_9$\\
+                \hline
+                p&N&A&Bl&Bl&A&Be&A&T&T&T\\
+                \hline
+                q&N&Be&A&Be&Be&A&Bl&A&T&T\\
+                \hline
+                r&N&Be&Be&A&Bl&Bl&Be&Be&A&T\\
+                \hline
+            \end{tabular}
+    \end{enumerate}
+\end{document}
