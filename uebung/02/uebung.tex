@@ -4,7 +4,13 @@
 \usepackage{amsmath, amsfonts}
 \usepackage{enumerate}
 \usepackage{pdfpages}
+\usepackage{listings}
+\usetikzlibrary{shapes,arrows,fit,calc,positioning}
+\usepackage{pgffor}
 \input{title.tex}
+\def\first#1,#2,#3\relax{#1}
+\def\second#1,#2,#3\relax{#2}
+\def\third#1,#2,#3\relax{#3}
 
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\R}{\mathbb{R}}
@@ -104,4 +110,193 @@
                 \hline
             \end{tabular}
     \end{enumerate}
+    \section{}
+    \begin{enumerate}[a)]
+        \item
+            Wir nehmen an, dass es ein Zeitintervall, der Größe $x$ gibt, in dem
+            die Funktion \verb|switch| immer mindestens einmal aufgerufen.
+            Nun sei der einfachheit halber $p_1$\verb|.td_total|$:=0$ und
+            $p_2$\verb|.td_total|$:=y\leq nx$.
+            In jedem, der ersten $k:=n-1$ Zeitintervallen wird switch aufgerufen
+            und verläuft folgendermaßen:
+            \begin{lstlisting}[mathescape=true]
+                procedure SWITCH()
+                    p=$p_1$
+                    if ((p nicht mehr ausfuehrbereit; false) und (nicht terminiert; true); false) then
+                        skip
+                    else
+                        enqueue(p) {
+                        procedure ENQUEUE(p)
+                            if (p ist terminiert; false) then
+                                skip
+                            else
+                                $p_1$.td_total = (k-1)x + x = kx
+                            end if
+                            return
+                        }
+                    end if
+                    q = dequeue() = $p_1$
+                    fuehre q aus
+                    return
+            \end{lstlisting}
+            beim durchlauf $n$ wiederrum ist
+            $p_1$.\verb|td_total|$=nx$
+            und in \verb|dequeue|
+            wird somit $p_2$ ausgeführt, da
+            $p_2$.\verb|td_total|$=y<$
+            $nx=p_1$.\verb|td_total|.
+            Dies ist aber nur der Fall, solange $p_2$ auch wirklich
+            bereit ist.
+            Somit kann ein prozess $p_2$, der immer bereit ist,
+            nicht verhungern.
+        \item
+            \begin{tikzpicture}[xscale=1,transform shape]
+                \draw [dashed] (.25, -.2) -- (.25, -4.2);
+                \foreach \t in {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25} {
+                    \draw (\t / 2, 0) node {\t};
+                    \draw [dashed] (\t / 2 + .25, -.2) -- (\t / 2 + .25, -4.2);
+                }
+                \foreach \y in {-.2, -1.2, -2.2, -3.2, -4.2} {
+                    \draw (.25, \y) -- (12.75, \y);
+                }
+
+                % A active
+                \foreach \x in {1, 7, 8, 20} {
+                    \def\coordx{\x / 2 - .25}
+                    \draw [fill, blue] (\coordx, -.3) rectangle (\coordx+.5, -.6);
+                }
+                % A blocked
+                \foreach \x in {2, 3, 9, 10, 11} {
+                    \def\coordx{\x / 2 - .25}
+                    \draw [fill, red] (\coordx, -.3) rectangle (\coordx+.5, -.6);
+                }
+                % A td_total
+                % {idx, len, value}
+                \foreach \bar in {{1, 3, 0}, {4, 5, 3}, {9, 12, 5}, {21, 5, 6}} {
+                    \def\x{\expandafter\first\bar\relax};
+                    \def\len{\expandafter\second\bar\relax}
+                    \def\val{\expandafter\third\bar\relax}
+
+                    \def\coordx{\x / 2 - .25}
+                    \def\y{\coordx + \len / 2}
+                    \draw [fill, white] (\coordx, -.7) rectangle (\y, -1);
+                    \draw (\coordx, -.7) rectangle (\y, -1);
+
+                    \def\rectx{\coordx + \len / 4}
+                    \node at (\rectx, -.85) {\val};
+                }
+
+                % B active
+                \foreach \x in {2, 3, 4, 16} {
+                    \def\coordx{\x / 2 - .25}
+                    \draw [fill, blue] (\coordx, -1.3) rectangle (\coordx+.5, -1.6);
+                }
+                % B blocked
+                \foreach \x in {5, 6, 7, 8, 9, 10} {
+                    \def\coordx{\x / 2 - .25}
+                    \draw [fill, red] (\coordx, -1.3) rectangle (\coordx+.5, -1.6);
+                }
+
+                % B td_total
+                % {idx, len, value}
+                \foreach \bar in {{2, 2, 0}, {4, 1, 2}, {5, 12, 3}, {17, 9, 4}} {
+                    \def\x{\expandafter\first\bar\relax};
+                    \def\len{\expandafter\second\bar\relax}
+                    \def\val{\expandafter\third\bar\relax}
+
+                    \def\coordx{\x / 2 - .25}
+                    \def\y{\coordx + \len / 2}
+                    \draw [fill, white] (\coordx, -1.7) rectangle (\y, -2);
+                    \draw (\coordx, -1.7) rectangle (\y, -2);
+
+                    \def\rectx{\coordx + \len / 4}
+                    \node at (\rectx, -1.85) {\val};
+                }
+
+                % C active
+                \foreach \x in {5, 6, 9, 10, 17, 18, 21, 22} {
+                    \def\coordx{\x / 2 - .25}
+                    \draw [fill, blue] (\coordx, -2.3) rectangle (\coordx+.5, -2.6);
+                }
+
+                % C td_total
+                % {idx, len, value}
+                \foreach \bar in {{5, 2, 0}, {7, 4, 2}, {11, 8, 4}, {19, 4, 6}, {23, 3, 8}} {
+                    \def\x{\expandafter\first\bar\relax};
+                    \def\len{\expandafter\second\bar\relax}
+                    \def\val{\expandafter\third\bar\relax}
+
+                    \def\coordx{\x / 2 - .25}
+                    \def\y{\coordx + \len / 2}
+                    \draw [fill, white] (\coordx, -2.7) rectangle (\y, -3);
+                    \draw (\coordx, -2.7) rectangle (\y, -3);
+
+                    \def\rectx{\coordx + \len / 4}
+                    \node at (\rectx, -2.85) {\val};
+                }
+
+                % D active
+                \foreach \x in {11, 12, 13, 14, 19} {
+                    \def\coordx{\x / 2 - .25}
+                    \draw [fill, blue] (\coordx, -3.3) rectangle (\coordx+.5, -3.6);
+                }
+                % D blocked
+                \foreach \x in {15} {
+                    \def\coordx{\x / 2 - .25}
+                    \draw [fill, red] (\coordx, -3.3) rectangle (\coordx+.5, -3.6);
+                }
+
+                % D td_total
+                % {idx, len, value}
+                \foreach \bar in {{11, 2, 0}, {13, 2, 2}, {15, 5, 4}, {20, 6, 5}} {
+                    \def\x{\expandafter\first\bar\relax};
+                    \def\len{\expandafter\second\bar\relax}
+                    \def\val{\expandafter\third\bar\relax}
+
+                    \def\coordx{\x / 2 - .25}
+                    \def\y{\coordx + \len / 2}
+                    \draw [fill, white] (\coordx, -3.7) rectangle (\y, -4);
+                    \draw (\coordx, -3.7) rectangle (\y, -4);
+
+                    \def\rectx{\coordx + \len / 4}
+                    \node at (\rectx, -3.85) {\val};
+                }
+            \end{tikzpicture}
+        \item
+            \begin{enumerate}[i.]
+                \item
+                    $T=\frac{3+8+6+2+6+2+1+3}{8}\approx 3.9$ ZE
+                \item
+                    Dadurch, dass jeweils der Prozess mit dem niedrigsten \verb|td_total| genutzt wird,
+                    kommt es dazu, dass nach I/O wartephasen ein Prozess häufig lange auf bereit wartet.
+                \item
+                    Wir nutzen anstelle der gesamten Ausführungszeit die Ausführungszeit pro Laufzeit.
+                    Somit werden in Enqueue Zeilen 5-7 zu:
+                    \begin{lstlisting}
+                         5: if p ist neuer Prozess then:
+                         6:    p.td_total = 0
+                        +7:    p.t_init = now()
+                         8: else
+                    \end{lstlisting}
+                    und Dequeue wird zu:
+                    \begin{lstlisting}
+                        1: procedure dequeue( )
+                        -2: p = Prozess aus ReadyCollection mit niedrigstem Wert fuer p.td_total
+                        +2: p = Prozess aus ReadyCollection mit niedrigstem Wert fuer p.td_total / (now() - p.t_init)
+                        3: p.ti_deq = now()
+                    \end{lstlisting}
+            \end{enumerate}
+        \item
+            \begin{enumerate}[i.]
+                \item
+                    Es kann dazu kommen, dass die Prozesse, die zu Beginn gestartet werden eine lange
+                    \verb|td_total| haben und somit vom Scheduler vernachlässigt werden im vergleich
+                    zu neu gestarteten Prozessen, die noch eine Niedrige \verb|td_total| haben.
+                    Hierzu kann man aufgabe b) prozesse A bzw C und D vergleichen.
+                \item
+                    Wir nutzen denselben Algorithmus, wie in c) iii.
+                    Hierbei wird dann ausgeglichen, dass der Prozess bereits alt ist
+            \end{enumerate}
+    \end{enumerate}
+
 \end{document}
