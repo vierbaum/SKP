@@ -62,11 +62,6 @@
                         Schritt:&\\
                         \hline
                         \hline
-                        Prozessor führt i-ten Befehl des Benutzerprogramms aus. Währenddes-&a\\
-                        sen wird ein Interrupt an den UBR-Controller gemeldet. Der UBR-&\\
-                        Controller legt das entsprechende Unterbrechungssignal an den Prozes-&\\
-                        sor an.&\\
-                        \hline
                         Prozessor führt den i-ten Befehl zu Ende aus.&d\\
                         \hline
                         Prozessor überprüft, ob ein Unterbrechungssignal vom UBR-Controller&f\\
@@ -110,6 +105,7 @@
                 \hline
             \end{tabular}
     \end{enumerate}
+    \newpage
     \section{}
     \begin{enumerate}[a)]
         \item
@@ -122,7 +118,8 @@
             \begin{lstlisting}[mathescape=true]
                 procedure SWITCH()
                     p=$p_1$
-                    if ((p nicht mehr ausfuehrbereit; false) und (nicht terminiert; true); false) then
+                    if ((p nicht mehr ausfuehrbereit; false) und
+                        (nicht terminiert; true); false) then
                         skip
                     else
                         enqueue(p) {
@@ -298,5 +295,23 @@
                     Hierbei wird dann ausgeglichen, dass der Prozess bereits alt ist
             \end{enumerate}
     \end{enumerate}
-
+    \section{}
+    \begin{enumerate}[a)]
+        \item
+            Nein, das ist nicht garantiert. Es könnte dann nämlich zufälligerweise so sein, dass der Scheduler die
+            Prozesse immer so drannimmt, dass man immer in solche Zustände kommt, dass man in einem Zyklus
+            landet. Solche Zyklen gibt es hier mehrere, z.B. $(b, c, d, e, f, g, b)$ oder $(c, d, e, f, c)$.
+        \item
+            Ja, das ist garantiert. Betrachte den Zustand $d$: Hier gibt es 2 ausgehende Kanten, was darauf hinweist,
+            dass es mind. 2 ausführungsbereite Befehle gibt. Seien $p_i$ und $q_j$ diese beiden Befehle, wobei die Ausführung
+            von $p_i$ zum Zustand $\Omega$ führen würde, und die Ausführung von $q_j$ zu $e$. Durch Widerspruch: Nehmen wir
+            an, das Programm würde trotz stark fairer Ausführung nicht terminieren. Dann muss das Programm
+            zunächst folgenden Pfad ausführen: $(a, b, c, d)$ und dann unendlich oft Pfade ausführen, die nicht zu $\Omega$
+            führen. Die einzige Möglichkeit dafür ist unendlich oft die beiden Zyklen auszuführen, die in a) erwähnt
+            wurden. Beide enthalten aber den Zustand $d\Rightarrow$ das Programm kommt unendlich oft in den Zustand $d$
+            $\Rightarrow p_i$ ist unendlich oft ausführungsbereit. Da das Programm $p_i$ aber nie ausführt, da es sonst terminieren
+            würde, ist hier ein Widerspruch zur starker Fairness: Jeder unendlich oft (nicht notwendigerweise ständig)
+            ausführungsbereite Befehl eines Prozesses wird unendlich oft ausgeführt. Also ist die Annahme falsch $\Rightarrow$
+            eine stark faire Ausführung des Programms terminiert garantiert.
+    \end{enumerate}
 \end{document}
