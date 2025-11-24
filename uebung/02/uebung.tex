@@ -158,18 +158,19 @@
                 }
 
                 % A active
-                \foreach \x in {1, 7, 8, 20} {
+                \foreach \x in {1, 9, 10, 20} {
                     \def\coordx{\x / 2 - .25}
-                    \draw [fill, blue] (\coordx, -.3) rectangle (\coordx+.5, -.6);
+                    \draw [fill, white] (\coordx, -.3) rectangle (\coordx+.5, -.6);
+                    \draw (\coordx, -.3) rectangle (\coordx+.5, -.6);
                 }
                 % A blocked
-                \foreach \x in {2, 3, 9, 10, 11} {
+                \foreach \x in {2, 3, 11, 12, 13} {
                     \def\coordx{\x / 2 - .25}
-                    \draw [fill, red] (\coordx, -.3) rectangle (\coordx+.5, -.6);
+                    \draw [fill, gray] (\coordx, -.3) rectangle (\coordx+.5, -.6);
                 }
                 % A td_total
                 % {idx, len, value}
-                \foreach \bar in {{1, 3, 0}, {4, 5, 3}, {9, 12, 5}, {21, 5, 6}} {
+                \foreach \bar in {{1, 3, 0}, {4, 10, 3}, {14, 12, 8}} {
                     \def\x{\expandafter\first\bar\relax};
                     \def\len{\expandafter\second\bar\relax}
                     \def\val{\expandafter\third\bar\relax}
@@ -184,19 +185,20 @@
                 }
 
                 % B active
-                \foreach \x in {2, 3, 4, 16} {
+                \foreach \x in {2, 3, 4, 21} {
                     \def\coordx{\x / 2 - .25}
-                    \draw [fill, blue] (\coordx, -1.3) rectangle (\coordx+.5, -1.6);
+                    \draw [fill, white] (\coordx, -1.3) rectangle (\coordx+.5, -1.6);
+                    \draw (\coordx, -1.3) rectangle (\coordx+.5, -1.6);
                 }
                 % B blocked
-                \foreach \x in {5, 6, 7, 8, 9, 10} {
+                \foreach \x in {5,6,7,8,9,10} {
                     \def\coordx{\x / 2 - .25}
-                    \draw [fill, red] (\coordx, -1.3) rectangle (\coordx+.5, -1.6);
+                    \draw [fill, gray] (\coordx, -1.3) rectangle (\coordx+.5, -1.6);
                 }
 
                 % B td_total
                 % {idx, len, value}
-                \foreach \bar in {{2, 2, 0}, {4, 1, 2}, {5, 12, 3}, {17, 9, 4}} {
+                \foreach \bar in {{2, 2, 0}, {4, 7, 2}, {11, 15, 9}} {
                     \def\x{\expandafter\first\bar\relax};
                     \def\len{\expandafter\second\bar\relax}
                     \def\val{\expandafter\third\bar\relax}
@@ -211,14 +213,15 @@
                 }
 
                 % C active
-                \foreach \x in {5, 6, 9, 10, 17, 18, 21, 22} {
+                \foreach \x in {5,6,7,8, 15, 16, 18, 19} {
                     \def\coordx{\x / 2 - .25}
-                    \draw [fill, blue] (\coordx, -2.3) rectangle (\coordx+.5, -2.6);
+                    \draw [fill, white] (\coordx, -2.3) rectangle (\coordx+.5, -2.6);
+                    \draw (\coordx, -2.3) rectangle (\coordx+.5, -2.6);
                 }
 
                 % C td_total
                 % {idx, len, value}
-                \foreach \bar in {{5, 2, 0}, {7, 4, 2}, {11, 8, 4}, {19, 4, 6}, {23, 3, 8}} {
+                \foreach \bar in {{5,2,0}, {7, 2, 2}, {9, 8, 4}, {17, 9, 6}} {
                     \def\x{\expandafter\first\bar\relax};
                     \def\len{\expandafter\second\bar\relax}
                     \def\val{\expandafter\third\bar\relax}
@@ -233,19 +236,20 @@
                 }
 
                 % D active
-                \foreach \x in {11, 12, 13, 14, 19} {
+                \foreach \x in {11, 12, 13, 14, 17} {
                     \def\coordx{\x / 2 - .25}
-                    \draw [fill, blue] (\coordx, -3.3) rectangle (\coordx+.5, -3.6);
+                    \draw [fill, white] (\coordx, -3.3) rectangle (\coordx+.5, -3.6);
+                    \draw (\coordx, -3.3) rectangle (\coordx+.5, -3.6);
                 }
                 % D blocked
                 \foreach \x in {15} {
                     \def\coordx{\x / 2 - .25}
-                    \draw [fill, red] (\coordx, -3.3) rectangle (\coordx+.5, -3.6);
+                    \draw [fill, gray] (\coordx, -3.3) rectangle (\coordx+.5, -3.6);
                 }
 
                 % D td_total
                 % {idx, len, value}
-                \foreach \bar in {{11, 2, 0}, {13, 2, 2}, {15, 5, 4}, {20, 6, 5}} {
+                \foreach \bar in {{10, 3, 0}, {13, 3, 2}, {16, 10, 5}} {
                     \def\x{\expandafter\first\bar\relax};
                     \def\len{\expandafter\second\bar\relax}
                     \def\val{\expandafter\third\bar\relax}
@@ -262,25 +266,25 @@
         \item
             \begin{enumerate}[i.]
                 \item
-                    $T=\frac{3+8+6+2+6+2+1+3}{8}\approx 3.9$ ZE
+                    $T=\frac{20+20+15+8}{4}\approx 17.75$ ZE
                 \item
-                    Dadurch, dass jeweils der Prozess mit dem niedrigsten \verb|td_total| genutzt wird,
-                    kommt es dazu, dass nach I/O wartephasen ein Prozess häufig lange auf bereit wartet.
+                    Dadurch, dass wir I/O-Phasen jeweils zur Prozesszeit dazurechnen, müssen Prozesse
+                    mit langen I/O-Phasen, aber kurzen Rechenzeiten lange warten.
                 \item
-                    Wir nutzen anstelle der gesamten Ausführungszeit die Ausführungszeit pro Laufzeit.
-                    Somit werden in Enqueue Zeilen 5-7 zu:
+                    Wir zählen nur noch tatsächliche Prozesszeit.
+                    Diese berechnen wir sobald, wir den Prozess wechseln in SWITCH:
                     \begin{lstlisting}
-                         5: if p ist neuer Prozess then:
-                         6:    p.td_total = 0
-                        +7:    p.t_init = now()
-                         8: else
-                    \end{lstlisting}
-                    und Dequeue wird zu:
-                    \begin{lstlisting}
-                        1: procedure dequeue( )
-                        -2: p = Prozess aus ReadyCollection mit niedrigstem Wert fuer p.td_total
-                        +2: p = Prozess aus ReadyCollection mit niedrigstem Wert fuer p.td_total / (now() - p.t_init)
-                        3: p.ti_deq = now()
+1:  procedure switch( )
+2:      p = bis jetzt auf der CPU ausgefuehrter Prozess
++       p.td_total = p.td_total + (now() - p.ti_deq)
+3:      if p nicht mehr ausfuehrbereit und nicht terminiert then
+4:      fuege p zu BlockedCollection hinzu
+5:      else
+6:      enqueue(p)
+7:      end if
+8:      q = dequeue()
+9:      setze q als auf dem Prozessor auszufuehrenden Prozess
+10: end procedure
                     \end{lstlisting}
             \end{enumerate}
         \item
@@ -291,8 +295,22 @@
                     zu neu gestarteten Prozessen, die noch eine Niedrige \verb|td_total| haben.
                     Hierzu kann man aufgabe b) prozesse A bzw C und D vergleichen.
                 \item
-                    Wir nutzen denselben Algorithmus, wie in c) iii.
-                    Hierbei wird dann ausgeglichen, dass der Prozess bereits alt ist
+                Wir nutzen anstelle der gesamten Ausführungszeit die Ausführungszeit pro Laufzeit.
+                Somit werden in Enqueue Zeilen 5-7 zu:
+                \begin{lstlisting}
+5: if p ist neuer Prozess then:
+6:    p.td_total = 0
++:    p.t_init = now()
+7: else
+                \end{lstlisting}
+                und Dequeue wird zu:
+                \begin{lstlisting}
+1: procedure dequeue( )
+-: p = Prozess aus ReadyCollection mit niedrigstem Wert fuer p.td_total
++: p = Prozess aus ReadyCollection mit niedrigstem Wert fuer
++:    p.td_total / (now() - p.t_init)
+3: p.ti_deq = now()
+                \end{lstlisting}
             \end{enumerate}
     \end{enumerate}
     \section{}
