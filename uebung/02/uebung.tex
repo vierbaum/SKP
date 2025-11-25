@@ -20,6 +20,7 @@
 \begin{document}
     \maketitle
     \section{}
+    Siehe zip
     \section{}
     \begin{enumerate}[a)]
         \item
@@ -147,6 +148,9 @@
             Somit kann ein prozess $p_2$, der immer bereit ist,
             nicht verhungern.
         \item
+            Je nach implementation von ``aufräumen'' (ENQUEUE) kann es dazu kommen,
+            dass \verb|td_total| bereits beim Terminieren des Prozesses
+            gelöscht wird.
             \begin{tikzpicture}[xscale=1,transform shape]
                 \draw [dashed] (.25, -.2) -- (.25, -4.2);
                 \foreach \t in {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25} {
@@ -263,10 +267,11 @@
                     \node at (\rectx, -3.85) {\val};
                 }
             \end{tikzpicture}
+            \newpage
         \item
             \begin{enumerate}[i.]
                 \item
-                    $T=\frac{20+20+15+8}{4}\approx 17.75$ ZE
+                    $T=\frac{1+4+14}{3}\approx 6.33$ ZE
                 \item
                     Dadurch, dass wir I/O-Phasen jeweils zur Prozesszeit dazurechnen, müssen Prozesse
                     mit langen I/O-Phasen, aber kurzen Rechenzeiten lange warten.
@@ -313,6 +318,7 @@
                 \end{lstlisting}
             \end{enumerate}
     \end{enumerate}
+    \newpage
     \section{}
     \begin{enumerate}[a)]
         \item
